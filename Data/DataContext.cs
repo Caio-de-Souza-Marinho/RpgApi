@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using RpgApi.Models;
 using RpgApi.Models.Enuns;
+using RpgApi.Utils;
 
 namespace RpgApi.Data
 {
@@ -15,6 +16,7 @@ namespace RpgApi.Data
         public DbSet<Arma> Armas { get; set; }
         public DbSet<Usuario> Usuarios { get; set; }
 
+        // Durante a criação do modelo de banco de dados, os seguintes dados são adicionados
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Personagem>().HasData
@@ -27,6 +29,18 @@ namespace RpgApi.Data
                 new Personagem() { Id = 6, Nome = "Celeborn", PontosVida = 100, Forca = 21, Defesa = 13, Inteligencia = 34, Classe = ClasseEnum.Clerigo},
                 new Personagem() { Id = 7, Nome = "Ragadast", PontosVida = 100, Forca = 25, Defesa = 11, Inteligencia = 35, Classe = ClasseEnum.Mago}
             );
+
+            //Inicio da criação do usuário padrão
+            Usuario user = new Usuario();
+            Criptografia.CriarPasswordHash("123456", out byte[] hash, out byte[] salt);
+            user.Id= 1;
+            user.Username = "UsuarioAdmin";
+            user.PasswordString = "string.Empty";
+            user.PasswordHash = hash;
+            user.PasswordSalt = salt;
+
+            modelBuilder.Entity<Usuario>().HasData(user);
+            //Fim da criação do usuário padrão
         }
     }
 
