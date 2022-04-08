@@ -41,6 +41,15 @@ namespace RpgApi.Data
 
             modelBuilder.Entity<Usuario>().HasData(user);
             //Fim da criação do usuário padrão
+
+            //Os dados serão adicionados com a criação do modelo
+            modelBuilder.Entity<Arma>().HasData
+            (                  
+                new Arma() { Id = 1, Nome="Arco e Flecha", Dano=35,PersonagemId=1 }, 
+                new Arma() { Id = 2, Nome="Espada", Dano=33,PersonagemId=2},     
+                new Arma() { Id = 3, Nome="Machado", Dano=31,PersonagemId=3 }                
+            );
+            //Fim criação armas
         }
     }
 
