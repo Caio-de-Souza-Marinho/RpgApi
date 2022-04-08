@@ -15,6 +15,8 @@ namespace RpgApi.Data
         public DbSet<Personagem> Personagens { get; set; }
         public DbSet<Arma> Armas { get; set; }
         public DbSet<Usuario> Usuarios { get; set; }
+        public DbSet<Habilidade> Habilidades { get; set; }
+        public DbSet<PersonagemHabilidade> PersonagemHabilidades { get; set; }
 
         // Durante a criação do modelo de banco de dados, os seguintes dados são adicionados
         protected override void OnModelCreating(ModelBuilder modelBuilder)
