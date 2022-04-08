@@ -44,7 +44,7 @@ namespace RpgApi.Data
             modelBuilder.Entity<Usuario>().HasData(user);
             //Fim da criação do usuário padrão
 
-            //Os dados serão adicionados com a criação do modelo
+            //Alimentação da classe Armas
             modelBuilder.Entity<Arma>().HasData
             (                  
                 new Arma() { Id = 1, Nome="Arco e Flecha", Dano=35,PersonagemId=1 }, 
@@ -52,6 +52,33 @@ namespace RpgApi.Data
                 new Arma() { Id = 3, Nome="Machado", Dano=31,PersonagemId=3 }                
             );
             //Fim criação armas
+
+            //Criação chave estrangeira
+            modelBuilder.Entity<PersonagemHabilidade>()
+                .HasKey(ph => new {ph.PersonagemId, ph.HabilidadeId });
+
+
+            //Alimentação classe Habilidades
+            modelBuilder.Entity<Habilidade>().HasData
+            (
+                new Habilidade(){Id=1, Nome="Adormecer", Dano=39},
+                new Habilidade(){Id=2, Nome="Congelar", Dano=41},
+                new Habilidade(){Id=3, Nome="Hipnotizar", Dano=37}
+            );
+
+            //Alimentação classe PersonagemHabilidades
+            modelBuilder.Entity<PersonagemHabilidade>().HasData
+            (                  
+                new PersonagemHabilidade() { PersonagemId = 1, HabilidadeId =1 }, 
+                new PersonagemHabilidade() { PersonagemId = 1, HabilidadeId =2 }, 
+                new PersonagemHabilidade() { PersonagemId = 2, HabilidadeId =2 }, 
+                new PersonagemHabilidade() { PersonagemId = 3, HabilidadeId =2 }, 
+                new PersonagemHabilidade() { PersonagemId = 3, HabilidadeId =3 }, 
+                new PersonagemHabilidade() { PersonagemId = 4, HabilidadeId =3 }, 
+                new PersonagemHabilidade() { PersonagemId = 5, HabilidadeId =1 }, 
+                new PersonagemHabilidade() { PersonagemId = 6, HabilidadeId =2 }, 
+                new PersonagemHabilidade() { PersonagemId = 7, HabilidadeId =3 }                               
+            );
         }
     }
 
