@@ -25,11 +25,9 @@ namespace RpgApi.Controllers
             if(await _context.Usuarios.AnyAsync(x => x.Username.ToLower() == username.ToLower()))
             {
                 return true;
-            }
-            else
-            {
-                return false;
-            }
+            }    
+        return false;
+            
         }
 
 
@@ -39,6 +37,6 @@ namespace RpgApi.Controllers
 
 
 
-        
+
     }
 }
