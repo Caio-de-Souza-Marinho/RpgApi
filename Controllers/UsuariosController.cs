@@ -56,7 +56,34 @@ namespace RpgApi.Controllers
             }
         }
 
-        
+        // Método para autenticar usuário por senha
+        [HttpPost("Autenticar")]
+        public async Task<IActionResult> AutenticarUsuario(Usuario credenciais)
+        {
+            try
+            {
+                Usuario usuario = await _context.Usuarios
+                    .FirstOrDefaultAsync(x => x.Username.ToLower().Equals(credenciais.Username.ToLower()));
+
+                if (usuario == null)
+                {
+                    throw new System.Exception("Usuário não encontrado.");
+                }
+                else if(!Criptografia
+                    .VerificarPasswordHash(credenciais.PasswordString, usuario.PasswordHash, usuario.PasswordSalt))
+                {
+                    throw new System.Exception("Senha incorreta.");
+                }
+                else
+                {
+                    return Ok(usuario.Id);
+                }
+            }
+            catch(System.Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
 
 
 
