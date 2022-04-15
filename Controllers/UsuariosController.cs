@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using RpgApi.Data;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace RpgApi.Controllers
 {
@@ -16,5 +18,27 @@ namespace RpgApi.Controllers
         {
             _context = context;
         }
+
+        // Método para verificar se um usuário já existe no banco de dados
+        private async Task<bool> UsuarioExistente(string username)
+        {
+            if(await _context.Usuarios.AnyAsync(x => x.Username.ToLower() == username.ToLower()))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+
+
+
+
+
+
+
+        
     }
 }
