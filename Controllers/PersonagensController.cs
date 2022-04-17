@@ -27,6 +27,9 @@ namespace RpgApi.Controllers
             try
             {
                 Personagem p = await _context.Personagens
+                    .Include(ar => ar.Arma)//Inclui na propriedade Arma do objeto p
+                    .Include(ph => ph.PersonagemHabilidades)
+                        .ThenInclude(h => h.Habilidade)//Inclui na lista de PersonagemHabilidade de p
                     .FirstOrDefaultAsync(pBusca => pBusca.Id == id);
 
                 return Ok(p);
