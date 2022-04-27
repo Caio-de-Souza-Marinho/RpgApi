@@ -38,7 +38,7 @@ namespace RpgApi.Controllers
         [HttpGet("GetAll")]
         public async Task<IActionResult> Get()
         {
-            try
+            try 
             {
                 //using System.Collections.Generic;
                 List<Arma> lista = await _context.Armas                    

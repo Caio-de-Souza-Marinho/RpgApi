@@ -1,9 +1,11 @@
 using Microsoft.AspNetCore.Mvc;
 using RpgApi.Data;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using RpgApi.Models;
 using RpgApi.Utils;
+
 
 namespace RpgApi.Controllers
 {
@@ -85,6 +87,21 @@ namespace RpgApi.Controllers
             }
         }
 
+        [HttpGet("GetAll")]
+
+        public async Task<IActionResult> GetAll()
+        {
+            try
+            {
+                List<Usuario> lista = await _context.Usuarios
+                    .ToListAsync();
+                return Ok(lista);
+            }
+            catch (System.Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
 
 
 
