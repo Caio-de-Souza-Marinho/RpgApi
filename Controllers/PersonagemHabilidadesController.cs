@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 using RpgApi.Models;
 using Microsoft.EntityFrameworkCore;
 using RpgApi.Data;
@@ -52,7 +53,22 @@ namespace RpgApi.Controllers
             }
         }
 
+        [HttpGet("GetHabilidades")]
 
+        public async Task<IActionResult> GetHabilidades()
+        {
+            try
+            {
+                List<Habilidade> lista = await _context.Habilidades
+                    .ToListAsync();
+                return Ok(lista);
+            }
+            catch (System.Exception ex)
+            {
+                return BadRequest (ex.Message);
+            }
+
+        }
 
 
 
