@@ -56,6 +56,24 @@ namespace RpgApi.Controllers
             }
         }
 
+        //Desafio 5
+        [HttpGet("{id}")]
+                public async Task<IActionResult> GetByPersonagemId(int id)
+                {
+                    try
+                    {
+                        PersonagemHabilidade personaId = await _context.PersonagemHabilidades
+                            .Include(h => h.Personagem.PersonagemHabilidades)
+                            .FirstOrDefaultAsync(per => per.PersonagemId == id);
+
+                        return Ok(personaId);
+                    }
+                    catch (System.Exception ex)
+                    {
+                        return BadRequest (ex.Message);
+                    }
+                }
+        
         //Desafio 6
         [HttpGet("GetHabilidades")]
 
@@ -72,7 +90,6 @@ namespace RpgApi.Controllers
                 return BadRequest (ex.Message);
             }
         }
-
 
 
 
