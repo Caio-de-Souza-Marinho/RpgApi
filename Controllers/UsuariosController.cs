@@ -87,6 +87,8 @@ namespace RpgApi.Controllers
             }
         }
 
+
+        //Desafio 2
         [HttpGet("GetAll")]
 
         public async Task<IActionResult> GetAll()
@@ -103,6 +105,7 @@ namespace RpgApi.Controllers
             }
         }
 
+        //Método para deletar usuários por ID
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {

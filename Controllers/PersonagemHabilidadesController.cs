@@ -5,6 +5,9 @@ using System.Collections.Generic;
 using RpgApi.Models;
 using Microsoft.EntityFrameworkCore;
 using RpgApi.Data;
+using System.Linq;
+using System;
+
 
 namespace RpgApi.Controllers
 {
@@ -53,6 +56,7 @@ namespace RpgApi.Controllers
             }
         }
 
+        //Desafio 6
         [HttpGet("GetHabilidades")]
 
         public async Task<IActionResult> GetHabilidades()
@@ -67,7 +71,6 @@ namespace RpgApi.Controllers
             {
                 return BadRequest (ex.Message);
             }
-
         }
 
 
