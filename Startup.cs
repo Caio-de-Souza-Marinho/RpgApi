@@ -30,7 +30,7 @@ namespace RpgApi
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddDbContext<DataContext>(x => x.UseSqlServer(Configuration.GetConnectionString("ConexaoSomee")));  
+            services.AddDbContext<DataContext>(x => x.UseSqlServer(Configuration.GetConnectionString("ConexaoLocal")));  
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
