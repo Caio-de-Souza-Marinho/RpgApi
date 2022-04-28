@@ -152,3 +152,4 @@ C:\etec\2modulo\DS\csharp\Aula04\RpgApi\bin\Debug\net5.0\Newtonsoft.Json.Bson.dl
 D:\caio2ds\ds\Aula04\RpgApi\bin\Debug\net5.0\Microsoft.AspNetCore.JsonPatch.dll
 D:\caio2ds\ds\Aula04\RpgApi\bin\Debug\net5.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
 D:\caio2ds\ds\Aula04\RpgApi\bin\Debug\net5.0\Newtonsoft.Json.Bson.dll
+D:\caio2ds\ds\Aula04\RpgApi\bin\Debug\net5.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll

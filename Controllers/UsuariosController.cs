@@ -3,6 +3,7 @@ using RpgApi.Data;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using RpgApi.Models;
 using RpgApi.Utils;
 
@@ -18,9 +19,12 @@ namespace RpgApi.Controllers
         
         private readonly DataContext _context;
 
-        public UsuariosController(DataContext context)
+        private readonly IConfiguration _configuration;
+
+        public UsuariosController(DataContext context, IConfiguration configuration)
         {
             _context = context;
+            _configuration = configuration;
         }
 
         // Método para verificar se um usuário já existe no banco de dados
