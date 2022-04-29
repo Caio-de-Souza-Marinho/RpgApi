@@ -113,7 +113,8 @@ namespace RpgApi.Controllers
                 }
                 else
                 {
-                    return Ok(usuario.Id);
+                    //return Ok(usuario.Id);
+                    return Ok(CriarToken(usuario));
                 }
             }
             catch(System.Exception ex)
