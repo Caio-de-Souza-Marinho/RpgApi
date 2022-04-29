@@ -6,6 +6,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using RpgApi.Models;
 using RpgApi.Utils;
+using System.Security.Claims;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using System;
+using System.IdentityModel.Tokens.Jwt;
 
 
 namespace RpgApi.Controllers
@@ -20,6 +25,8 @@ namespace RpgApi.Controllers
         private readonly DataContext _context;
 
         private readonly IConfiguration _configuration;
+
+        
 
         public UsuariosController(DataContext context, IConfiguration configuration)
         {
@@ -36,6 +43,30 @@ namespace RpgApi.Controllers
             }    
         return false;
             
+        }
+
+        //Método para criar o token
+        private string CriarToken(Usuario usuario)
+        {
+            List<Claim> claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.NameIdentifier, usuario.Id.ToString()),
+                new Claim(ClaimTypes.Name, usuario.Username)
+            };
+            SymmetricSecurityKey key = new SymmetricSecurityKey(Encoding.UTF8
+            .GetBytes(_configuration.GetSection("ConfiguracaoToken:Chave").Value));
+
+            SigningCredentials creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
+            SecurityTokenDescriptor tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(claims),
+                Expires = DateTime.Now.AddDays(1),
+                SigningCredentials = creds
+            };
+            JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
+            SecurityToken token = tokenHandler.CreateToken(tokenDescriptor);
+
+            return tokenHandler.WriteToken(token);
         }
 
         // Método para registrar um usuário, caso o username não exista no banco de dados
