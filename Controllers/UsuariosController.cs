@@ -11,11 +11,13 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System;
 using System.IdentityModel.Tokens.Jwt;
+using Microsoft.AspNetCore.Authorization;
 
 
 namespace RpgApi.Controllers
 {
     
+    [Authorize]
     [ApiController]
     [Route("[Controller]")]
 
@@ -70,6 +72,7 @@ namespace RpgApi.Controllers
         }
 
         // Método para registrar um usuário, caso o username não exista no banco de dados
+        [AllowAnonymous]
         [HttpPost("Registrar")]
         public async Task<IActionResult> RegistrarUsuario(Usuario user)
         {
@@ -94,6 +97,7 @@ namespace RpgApi.Controllers
         }
 
         // Método para autenticar usuário por senha
+        [AllowAnonymous]
         [HttpPost("Autenticar")]
         public async Task<IActionResult> AutenticarUsuario(Usuario credenciais)
         {
