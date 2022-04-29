@@ -5,10 +5,12 @@ using RpgApi.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Authorization;
 
 
 namespace RpgApi.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("[Controller]")]
 
