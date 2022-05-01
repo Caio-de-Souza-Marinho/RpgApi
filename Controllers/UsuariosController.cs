@@ -127,6 +127,31 @@ namespace RpgApi.Controllers
             }
         }
 
+        [HttpPut("AlterarSenha")]
+        public async Task<IActionResult> AlterarSenha(Usuario credenciais)
+        {
+            try
+            {
+                Usuario usuario = await _context.Usuarios //Busca o usuário no banco através do login
+                    .FirstOrDefaultAsync(x => x.Username.ToLower().Equals(credenciais.Username.ToLower()));
+
+                if(usuario == null) //Se não achar nenhum usuário pelo login, retorna mensagem.
+                    throw new System.Exception("Usuário não encontrado.");
+                
+                Criptografia.CriarPasswordHash(credenciais.PasswordString, out byte[] hash, out byte[] salt);
+                usuario.PasswordHash = hash;
+                usuario.PasswordSalt = salt;
+
+                _context.Usuarios.Update(usuario);
+                int linhasAfetadas = await _context.SaveChangesAsync();
+                return Ok(linhasAfetadas);
+
+            }
+            catch(System.Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
 
         //Desafio 2
         [HttpGet("GetAll")]
