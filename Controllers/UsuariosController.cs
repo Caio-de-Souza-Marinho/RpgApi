@@ -127,6 +127,7 @@ namespace RpgApi.Controllers
             }
         }
 
+        //Desafio 1
         [HttpPut("AlterarSenha")]
         public async Task<IActionResult> AlterarSenha(Usuario credenciais)
         {
