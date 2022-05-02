@@ -83,8 +83,8 @@ namespace RpgApi.Controllers
         {
             try
             {
-                List<Habilidade> lista = await _context.Habilidades
-                    .ToListAsync();
+                List<Habilidade> lista = new List<Habilidade>();
+                lista = await _context.Habilidades.ToListAsync();
                 return Ok(lista);
             }
             catch (System.Exception ex)

@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Authorization;
+using System.Linq;
 
 
 namespace RpgApi.Controllers
@@ -98,6 +99,7 @@ namespace RpgApi.Controllers
             }
         }
 
+        //Método para deletar um personagem
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
@@ -118,8 +120,6 @@ namespace RpgApi.Controllers
  
  
         }
-
-
 
 
 
