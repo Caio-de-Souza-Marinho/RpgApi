@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Authorization;
 using System.Linq;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Http;
 
 
 namespace RpgApi.Controllers
@@ -20,9 +21,17 @@ namespace RpgApi.Controllers
     {
         private readonly DataContext _context;
 
-        public PersonagensController(DataContext context)
+        private readonly IHttpContextAccessor _httpContextAccessor;
+
+        public PersonagensController(DataContext context, IHttpContextAccessor httpContextAccessor)
         {
             _context = context;
+            _httpContextAccessor = httpContextAccessor;
+        }
+
+        private int ObterUsuarioId()
+        {
+            return int.Parse(_httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
         }
 
         [HttpGet("{id}")]
