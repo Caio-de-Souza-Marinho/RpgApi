@@ -141,7 +141,7 @@ namespace RpgApi.Controllers
             }
         }
 
-        //Método que retorna todos os personagens atrelados a ID do usuário passado
+        //Método que retorna todos os personagens atrelados a ID do usuário passado através do token de autenticação
         [HttpGet("GetByUser")]
         public async Task<IActionResult> GetByUserAsync()
         {
