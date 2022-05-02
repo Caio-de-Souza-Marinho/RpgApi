@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Authorization;
 using System.Linq;
+using System.Security.Claims;
 
 
 namespace RpgApi.Controllers
@@ -140,6 +141,24 @@ namespace RpgApi.Controllers
             }
         }
 
+        //Método que retorna todos os personagens atrelados a ID do usuário passado
+        [HttpGet("GetByUser")]
+        public async Task<IActionResult> GetByUserAsync()
+        {
+            try
+            {
+                int id = int.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value);
+
+                List<Personagem> lista = await _context.Personagens
+                    .Where(u => u.Usuario.Id == id).ToListAsync();
+
+                return Ok(lista);
+            }
+            catch (System.Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
 
 
 
