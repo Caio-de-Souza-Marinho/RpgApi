@@ -57,16 +57,18 @@ namespace RpgApi.Controllers
         }
 
         //Desafio 5
-        [HttpGet("{id}")]
-                public async Task<IActionResult> GetByPersonagemId(int id)
+        [HttpGet("{personagemId}")]
+                public async Task<IActionResult> GetHabilidadesPersonagemId(int personagemId)
                 {
                     try
                     {
-                        PersonagemHabilidade personaId = await _context.PersonagemHabilidades
-                            .Include(h => h.Personagem.PersonagemHabilidades)
-                            .FirstOrDefaultAsync(per => per.PersonagemId == id);
-
-                        return Ok(personaId);
+                        List<PersonagemHabilidade> phLista = new List<PersonagemHabilidade>();
+                        phLista = await _context.PersonagemHabilidades
+                        .Include(p => p.Personagem)
+                        .Include(h => h.Habilidade)
+                        .Where(p => p.Personagem.Id == personagemId).ToListAsync();
+                        
+                        return Ok(phLista);
                     }
                     catch (System.Exception ex)
                     {
