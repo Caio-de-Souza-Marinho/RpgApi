@@ -37,7 +37,7 @@ namespace RpgApi.Controllers
         }
 
         // Método para verificar se um usuário já existe no banco de dados
-        public async Task<bool> UsuarioExistente(string username)
+        private async Task<bool> UsuarioExistente(string username)
         {
             if(await _context.Usuarios.AnyAsync(x => x.Username.ToLower() == username.ToLower()))
             {
