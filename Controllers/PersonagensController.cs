@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace RpgApi.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Jogador, Admin")]
     [ApiController]
     [Route("[Controller]")]
 
