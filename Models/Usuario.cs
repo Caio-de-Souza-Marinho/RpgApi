@@ -1,6 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace RpgApi.Models
 {
@@ -18,5 +19,8 @@ namespace RpgApi.Models
         [NotMapped]
         public string PasswordString { get; set; }
         public List<Personagem> Personagens { get; set; }
+
+        [Required]
+        public string Perfil { get; set; }
     }
 }
