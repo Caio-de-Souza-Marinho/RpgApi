@@ -180,6 +180,30 @@ namespace RpgApi.Controllers
             }
         }
 
+        //Método para pegar todos os personagens de acordo com o perfi do usuário
+        [HttpGet("GetByPerfil")]
+        public async Task<IActionResult> GetByPerfilAsync()
+        {
+            try
+            {
+                List<Personagem> lista = new List<Personagem>();
+
+                if(ObterPerfilUsuario() == "Admin")
+                {
+                    lista = await _context.Personagens.ToListAsync();
+                }
+                else
+                {
+                    lista = await _context.Personagens
+                        .Where(p => p.Usuario.Id == ObterUsuarioId()).ToListAsync();
+                }
+                return Ok (lista);
+            }
+            catch (System.Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
 
 
 
