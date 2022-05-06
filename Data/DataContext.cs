@@ -66,6 +66,9 @@ namespace RpgApi.Data
                 new Habilidade(){Id=3, Nome="Hipnotizar", Dano=37}
             );
 
+            //Sempre que um Usuário for salvo sem identificação de Perfil, por padrão a descrição do perfil será de jogador.
+            modelBuilder.Entity<Usuario>().Property(u => u.Perfil).HasDefaultValue("Jogador");
+
             //Alimentação classe PersonagemHabilidades
             modelBuilder.Entity<PersonagemHabilidade>().HasData
             (                  
@@ -79,6 +82,8 @@ namespace RpgApi.Data
                 new PersonagemHabilidade() { PersonagemId = 6, HabilidadeId =2 }, 
                 new PersonagemHabilidade() { PersonagemId = 7, HabilidadeId =3 }                               
             );
+
+
         }
     }
 
