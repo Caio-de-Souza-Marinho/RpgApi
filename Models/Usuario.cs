@@ -20,7 +20,7 @@ namespace RpgApi.Models
         public string PasswordString { get; set; }
         public List<Personagem> Personagens { get; set; }
 
-        [Required]
+        // [Required]
         public string Perfil { get; set; }
     }
 }
