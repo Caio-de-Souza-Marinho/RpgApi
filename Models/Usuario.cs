@@ -15,7 +15,8 @@ namespace RpgApi.Models
         public string Latitude { get; set; }
         public string Longitude { get; set; }
         public DateTime? DataAcesso { get; set; }
-    
+        public string Email { get; set; }
+
         [NotMapped]
         public string PasswordString { get; set; }
         public List<Personagem> Personagens { get; set; }
