@@ -1,5 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
 using RpgApi.Data;
+using RpgApi.Models;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Text;
 
 namespace RpgApi.Controllers
 {
@@ -13,5 +18,57 @@ namespace RpgApi.Controllers
         {
             _context = context;
         }
+    
+    [HttpPost("Arma")]
+        public async Task<IActionResult> AtaqueComArmaAsync(Disputa d)
+        {
+            try
+            {
+                Personagem atacante = await _context.Personagens
+                    .Include(p => p.Arma)
+                    .FirstOrDefaultAsync(p => p.Id == d.AtacanteId);
+
+                Personagem oponente = await _context.Personagens
+                    .FirstOrDefaultAsync(p => p.Id == d.OponenteId);
+
+                int dano = atacante.Arma.Dano + (new Random().Next(atacante.Forca));
+
+                dano = dano - new Random().Next(oponente.Defesa);
+
+                if (dano > 0)
+                    oponente.PontosVida = oponente.PontosVida - (int)dano;
+                if (oponente.PontosVida <= 0)
+                    d.Narracao = $"{oponente.Nome} foi derrotado!";
+
+                _context.Personagens.Update(oponente);
+                await _context.SaveChangesAsync();
+
+                StringBuilder dados = new StringBuilder();
+                dados.AppendFormat(" Atacante: {0}. ", atacante.Nome);
+                dados.AppendFormat(" Oponente: {0}. ", oponente.Nome);
+                dados.AppendFormat(" Pontos de vida do atacante: {0}. ", atacante.PontosVida);
+                dados.AppendFormat(" Pontos de vida do oponente: {0}. ", oponente.PontosVida);
+                dados.AppendFormat(" Arma utilizada: {0}", atacante.Arma.Nome);
+                dados.AppendFormat(" Dano: {0}", dano);
+                
+                d.Narracao += dados.ToString();
+                d.DataDisputa = DateTime.Now;
+                _context.Disputas.Add(d);
+                _context.SaveChanges();
+
+                return Ok(d);
+            }
+            catch (System.Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+    
+    
+    
+    
+    
+    
+    
     }
 }
