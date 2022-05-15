@@ -19,6 +19,7 @@ namespace RpgApi.Controllers
             _context = context;
         }
     
+    //Método que fará um ataque a um outro personagem usando uma Arma
     [HttpPost("Arma")]
         public async Task<IActionResult> AtaqueComArmaAsync(Disputa d)
         {
@@ -48,8 +49,8 @@ namespace RpgApi.Controllers
                 dados.AppendFormat(" Oponente: {0}. ", oponente.Nome);
                 dados.AppendFormat(" Pontos de vida do atacante: {0}. ", atacante.PontosVida);
                 dados.AppendFormat(" Pontos de vida do oponente: {0}. ", oponente.PontosVida);
-                dados.AppendFormat(" Arma utilizada: {0}", atacante.Arma.Nome);
-                dados.AppendFormat(" Dano: {0}", dano);
+                dados.AppendFormat(" Arma utilizada: {0}. ", atacante.Arma.Nome);
+                dados.AppendFormat(" Dano: {0}. ", dano);
                 
                 d.Narracao += dados.ToString();
                 d.DataDisputa = DateTime.Now;
