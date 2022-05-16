@@ -34,7 +34,7 @@ namespace RpgApi.Controllers
         {
             try
             {
-                Arma a = await _context.Armas                        
+                Arma a = await _context.Armas
                        .FirstOrDefaultAsync(aBusca => aBusca.Id == id);
                 //using Microsoft.EntityFrameworkCore;
 
@@ -49,10 +49,10 @@ namespace RpgApi.Controllers
         [HttpGet("GetAll")]
         public async Task<IActionResult> Get()
         {
-            try 
+            try
             {
                 //using System.Collections.Generic;
-                List<Arma> lista = await _context.Armas                    
+                List<Arma> lista = await _context.Armas
                     .ToListAsync();
                 return Ok(lista);
             }
@@ -79,11 +79,11 @@ namespace RpgApi.Controllers
                     throw new System.Exception("Seu usuário não contém personagens com o Id do Personagem informado.");
 
                 Arma buscaArma = await _context.Armas
-                    .FirstOrDefaultAsync(a => a.PersonagemId ==  novaArma.PersonagemId);
+                    .FirstOrDefaultAsync(a => a.PersonagemId == novaArma.PersonagemId);
 
                 if (buscaArma != null)
                     throw new System.Exception("O Personagem selecionado já contém uma arma atribuída a ele.");
-                
+
                 await _context.Armas.AddAsync(novaArma);
                 await _context.SaveChangesAsync();
 
@@ -134,6 +134,6 @@ namespace RpgApi.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        
+
     }
 }

@@ -33,13 +33,13 @@ namespace RpgApi.Controllers
                     .Include(p => p.PersonagemHabilidades).ThenInclude(ps => ps.Habilidade)
                     .FirstOrDefaultAsync(p => p.Id == novoPersonagemHabilidade.PersonagemId);
 
-                if(personagem == null)
+                if (personagem == null)
                     throw new System.Exception("Personagem não encontrado para o ID informado.");
 
                 Habilidade habilidade = await _context.Habilidades
                                     .FirstOrDefaultAsync(h => h.Id == novoPersonagemHabilidade.HabilidadeId);
 
-                if(habilidade == null)
+                if (habilidade == null)
                     throw new System.Exception("Habilidade não encontrada.");
 
                 PersonagemHabilidade ph = new PersonagemHabilidade();
@@ -58,24 +58,24 @@ namespace RpgApi.Controllers
 
         //Desafio 5
         [HttpGet("{personagemId}")]
-                public async Task<IActionResult> GetHabilidadesPersonagemId(int personagemId)
-                {
-                    try
-                    {
-                        List<PersonagemHabilidade> phLista = new List<PersonagemHabilidade>();
-                        phLista = await _context.PersonagemHabilidades
-                        .Include(p => p.Personagem)
-                        .Include(h => h.Habilidade)
-                        .Where(p => p.Personagem.Id == personagemId).ToListAsync();
-                        
-                        return Ok(phLista);
-                    }
-                    catch (System.Exception ex)
-                    {
-                        return BadRequest (ex.Message);
-                    }
-                }
-        
+        public async Task<IActionResult> GetHabilidadesPersonagemId(int personagemId)
+        {
+            try
+            {
+                List<PersonagemHabilidade> phLista = new List<PersonagemHabilidade>();
+                phLista = await _context.PersonagemHabilidades
+                .Include(p => p.Personagem)
+                .Include(h => h.Habilidade)
+                .Where(p => p.Personagem.Id == personagemId).ToListAsync();
+
+                return Ok(phLista);
+            }
+            catch (System.Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         //Desafio 6
         [HttpGet("GetHabilidades")]
 
@@ -89,7 +89,7 @@ namespace RpgApi.Controllers
             }
             catch (System.Exception ex)
             {
-                return BadRequest (ex.Message);
+                return BadRequest(ex.Message);
             }
         }
 

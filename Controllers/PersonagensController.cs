@@ -78,17 +78,17 @@ namespace RpgApi.Controllers
         {
             try
             {
-                if(novoPersonagem.PontosVida > 100)
+                if (novoPersonagem.PontosVida > 100)
                 {
                     throw new Exception("Pontos de vida não pode ser maior que 100");
                 }
-                
+
                 novoPersonagem.Usuario = _context.Usuarios.FirstOrDefault(uBusca => uBusca.Id == ObterUsuarioId());
-                
+
                 await _context.Personagens.AddAsync(novoPersonagem);
                 await _context.SaveChangesAsync();
 
-                return Ok(novoPersonagem.Id);    
+                return Ok(novoPersonagem.Id);
             }
             catch (Exception ex)
             {
@@ -105,13 +105,13 @@ namespace RpgApi.Controllers
                 {
                     throw new Exception("Pontos de vida não pode ser maior que 100");
                 }
-                
+
                 novoPersonagem.Usuario = _context.Usuarios.FirstOrDefault(uBusca => uBusca.Id == ObterUsuarioId());
-                
+
                 _context.Personagens.Update(novoPersonagem);
                 int linhasAfetadas = await _context.SaveChangesAsync();
-                
-            
+
+
                 return Ok(linhasAfetadas);
             }
             catch (Exception ex)
@@ -137,7 +137,7 @@ namespace RpgApi.Controllers
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
-            } 
+            }
         }
 
         //Desafio 7 método para deletar habilidade do personagem
@@ -148,7 +148,7 @@ namespace RpgApi.Controllers
             {
                 PersonagemHabilidade phRemover = await _context.PersonagemHabilidades
                     .FirstOrDefaultAsync(phBusca => phBusca.PersonagemId == ph.PersonagemId && phBusca.HabilidadeId == ph.HabilidadeId);
-                if(phRemover == null)
+                if (phRemover == null)
                     throw new System.Exception("Personagem ou Habilidade não encontrados");
 
                 _context.PersonagemHabilidades.Remove(phRemover);
@@ -188,7 +188,7 @@ namespace RpgApi.Controllers
             {
                 List<Personagem> lista = new List<Personagem>();
 
-                if(ObterPerfilUsuario() == "Admin")
+                if (ObterPerfilUsuario() == "Admin")
                 {
                     lista = await _context.Personagens.ToListAsync();
                 }
@@ -197,7 +197,7 @@ namespace RpgApi.Controllers
                     lista = await _context.Personagens
                         .Where(p => p.Usuario.Id == ObterUsuarioId()).ToListAsync();
                 }
-                return Ok (lista);
+                return Ok(lista);
             }
             catch (System.Exception ex)
             {
@@ -206,27 +206,27 @@ namespace RpgApi.Controllers
         }
 
         [HttpPut("RestaurarPontosVida")]
-            public async Task<IActionResult> RestautarPontosVidaAsync(Personagem p)
+        public async Task<IActionResult> RestautarPontosVidaAsync(Personagem p)
+        {
+            try
             {
-                try
-                {
-                    int linhasAfetadas = 0;
-                    Personagem pEncontrado = await _context.Personagens.FirstOrDefaultAsync(pBusca => pBusca.Id == p.Id);
-                    pEncontrado.PontosVida = 100;
+                int linhasAfetadas = 0;
+                Personagem pEncontrado = await _context.Personagens.FirstOrDefaultAsync(pBusca => pBusca.Id == p.Id);
+                pEncontrado.PontosVida = 100;
 
-                    bool atualizou = await TryUpdateModelAsync<Personagem>(pEncontrado, "p", pAtualizar => pAtualizar.PontosVida);
-                    // EF vai detectar e atualizar apenas as colunas que foram alteradas.
+                bool atualizou = await TryUpdateModelAsync<Personagem>(pEncontrado, "p", pAtualizar => pAtualizar.PontosVida);
+                // EF vai detectar e atualizar apenas as colunas que foram alteradas.
 
-                    if (atualizou)
-                        linhasAfetadas = await _context.SaveChangesAsync();
+                if (atualizou)
+                    linhasAfetadas = await _context.SaveChangesAsync();
 
-                    return Ok(linhasAfetadas);
-                }
-                catch (System.Exception ex)
-                {
-                    return BadRequest(ex.Message);
-                }
+                return Ok(linhasAfetadas);
             }
+            catch (System.Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
 
         //Método para alteração da foto do personagem
         [HttpPut("AtualizarFoto")]
@@ -242,7 +242,7 @@ namespace RpgApi.Controllers
                 attach.Property(x => x.Id).IsModified = false;
                 attach.Property(x => x.FotoPersonagem).IsModified = true;
                 int linhasAfetadas = await _context.SaveChangesAsync();
-                
+
                 return Ok(linhasAfetadas);
             }
             catch (System.Exception ex)
@@ -278,9 +278,9 @@ namespace RpgApi.Controllers
             {
                 return BadRequest(ex.Message);
             }
-    }
+        }
 
-    [HttpPut("ZerarRankingRestaurarVidas")]
+        [HttpPut("ZerarRankingRestaurarVidas")]
         public async Task<IActionResult> ZerarRankingRestaurarVidasAsync()
         {
             try

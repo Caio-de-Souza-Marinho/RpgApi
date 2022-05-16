@@ -16,19 +16,19 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace RpgApi.Controllers
 {
-    
+
     [Authorize]
     [ApiController]
     [Route("[Controller]")]
 
     public class UsuariosController : ControllerBase
     {
-        
+
         private readonly DataContext _context;
 
         private readonly IConfiguration _configuration;
 
-        
+
 
         public UsuariosController(DataContext context, IConfiguration configuration)
         {
@@ -39,12 +39,12 @@ namespace RpgApi.Controllers
         // Método para verificar se um usuário já existe no banco de dados
         private async Task<bool> UsuarioExistente(string username)
         {
-            if(await _context.Usuarios.AnyAsync(x => x.Username.ToLower() == username.ToLower()))
+            if (await _context.Usuarios.AnyAsync(x => x.Username.ToLower() == username.ToLower()))
             {
                 return true;
-            }    
-        return false;
-            
+            }
+            return false;
+
         }
 
         //Método para criar o token
@@ -79,7 +79,7 @@ namespace RpgApi.Controllers
         {
             try
             {
-                if(await UsuarioExistente(user.Username))
+                if (await UsuarioExistente(user.Username))
                     throw new System.Exception("Nome de usuário já existe");
 
                 Criptografia.CriarPasswordHash(user.PasswordString, out byte[] hash, out byte[] salt);
@@ -111,7 +111,7 @@ namespace RpgApi.Controllers
                 {
                     throw new System.Exception("Usuário não encontrado.");
                 }
-                else if(!Criptografia
+                else if (!Criptografia
                     .VerificarPasswordHash(credenciais.PasswordString, usuario.PasswordHash, usuario.PasswordSalt))
                 {
                     throw new System.Exception("Senha incorreta.");
@@ -125,7 +125,7 @@ namespace RpgApi.Controllers
                     return Ok(CriarToken(usuario));
                 }
             }
-            catch(System.Exception ex)
+            catch (System.Exception ex)
             {
                 return BadRequest(ex.Message);
             }
@@ -140,9 +140,9 @@ namespace RpgApi.Controllers
                 Usuario usuario = await _context.Usuarios //Busca o usuário no banco através do login
                     .FirstOrDefaultAsync(x => x.Username.ToLower().Equals(credenciais.Username.ToLower()));
 
-                if(usuario == null) //Se não achar nenhum usuário pelo login, retorna mensagem.
+                if (usuario == null) //Se não achar nenhum usuário pelo login, retorna mensagem.
                     throw new System.Exception("Usuário não encontrado.");
-                
+
                 Criptografia.CriarPasswordHash(credenciais.PasswordString, out byte[] hash, out byte[] salt);
                 usuario.PasswordHash = hash;
                 usuario.PasswordSalt = salt;
@@ -152,7 +152,7 @@ namespace RpgApi.Controllers
                 return Ok(linhasAfetadas);
 
             }
-            catch(System.Exception ex)
+            catch (System.Exception ex)
             {
                 return BadRequest(ex.Message);
             }
@@ -183,7 +183,7 @@ namespace RpgApi.Controllers
             {
                 Usuario uRemover = await _context.Usuarios
                     .FirstOrDefaultAsync(u => u.Id == id);
-                
+
                 _context.Usuarios.Remove(uRemover);
                 int linhasAfetadas = await _context.SaveChangesAsync();
 
@@ -199,16 +199,16 @@ namespace RpgApi.Controllers
         public async Task<IActionResult> GetUsuario(int usuarioId)
         {
             try
-        {
-            //Busca o usuario através do login
-            Usuario usuario = await _context.Usuarios .FirstOrDefaultAsync(x => x.Id == usuarioId);
+            {
+                //Busca o usuario através do login
+                Usuario usuario = await _context.Usuarios.FirstOrDefaultAsync(x => x.Id == usuarioId);
 
-            return Ok(usuario);
-        }
-        catch (System.Exception ex)
-        {
-            return BadRequest(ex.Message);
-        }
+                return Ok(usuario);
+            }
+            catch (System.Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpGet("GetByLogin/{login}")]
@@ -251,7 +251,7 @@ namespace RpgApi.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        
+
         //Método para alteração do e-mail
         [HttpPut("AtualizarEmail")]
         public async Task<IActionResult> AtualizarEmail(Usuario u)
