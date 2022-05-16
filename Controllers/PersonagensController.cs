@@ -228,6 +228,38 @@ namespace RpgApi.Controllers
                 }
             }
 
+        //Método para alteração da foto do personagem
+        [HttpPut("AtualizarFoto")]
+        public async Task<IActionResult> AtualizarFoto(Personagem p)
+        {
+            try
+        {
+            Personagem personagem = await _context.Personagens.FirstOrDefaultAsync(x => x.Id == p.Id);
+
+            personagem.FotoPersonagem = p.FotoPersonagem;
+
+            var attach = _context.Attach(personagem);
+            attach.Property(x => x.Id).IsModified = false;
+            attach.Property(x => x.FotoPersonagem).IsModified = true;
+            int linhasAfetadas = await _context.SaveChangesAsync();
+            
+            return Ok(linhasAfetadas);
+        }
+        catch (System.Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+        }
+
+
+
+
+
+
+
+
+
+
 
     }
 }
