@@ -276,7 +276,29 @@ namespace RpgApi.Controllers
             }
         }
 
-        
+        //Médoto para alteração da foto de usuário
+        [HttpPut("AtualizarFoto")]
+        public async Task<IActionResult> AtualizarFoto(Usuario u)
+        {
+            try
+            {
+                Usuario usuario = await _context.Usuarios.FirstOrDefaultAsync(x => x.Id == u.Id);
+
+                usuario.Foto = u.Foto;
+
+                var attach = _context.Attach(usuario);
+                attach.Property(x => x.Id).IsModified = false;
+                attach.Property(x => x.Foto).IsModified = true;
+
+                int linhasAfetadas = await _context.SaveChangesAsync();
+
+                return Ok(linhasAfetadas);
+            }
+            catch (System.Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
 
 
 
