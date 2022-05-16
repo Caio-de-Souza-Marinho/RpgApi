@@ -205,7 +205,28 @@ namespace RpgApi.Controllers
             }
         }
 
+        [HttpPut("RestaurarPontosVida")]
+            public async Task<IActionResult> RestautarPontosVidaAsync(Personagem p)
+            {
+                try
+                {
+                    int linhasAfetadas = 0;
+                    Personagem pEncontrado = await _context.Personagens.FirstOrDefaultAsync(pBusca => pBusca.Id == p.Id);
+                    pEncontrado.PontosVida = 100;
 
+                    bool atualizou = await TryUpdateModelAsync<Personagem>(pEncontrado, "p", pAtualizar => pAtualizar.PontosVida);
+                    // EF vai detectar e atualizar apenas as colunas que foram alteradas.
+
+                    if (atualizou)
+                        linhasAfetadas = await _context.SaveChangesAsync();
+
+                    return Ok(linhasAfetadas);
+                }
+                catch (System.Exception ex)
+                {
+                    return BadRequest(ex.Message);
+                }
+            }
 
 
     }
