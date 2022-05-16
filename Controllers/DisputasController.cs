@@ -84,7 +84,7 @@ namespace RpgApi.Controllers
                 //por parâmetro na requisição
                 PersonagemHabilidade ph = await _context.PersonagemHabilidades
                     .Include(p => p.Habilidade)
-                    .FirstOrDefaultAsync(phBusca => phBusca.HabilidadeId == d.HabilidadeId);
+                    .FirstOrDefaultAsync(phBusca => phBusca.HabilidadeId == d.HabilidadeId && phBusca.PersonagemId == d.AtacanteId);
 
                 if (ph == null)
                     d.Narracao = $"{atacante.Nome} não possui esta habilidade";
