@@ -111,7 +111,7 @@ namespace RpgApi.Controllers
                     d.Narracao += dados.ToString();
                     d.DataDisputa = DateTime.Now;
                     _context.Disputas.Add(d);
-                    _context.SaveChangesAsync();
+                    await _context.SaveChangesAsync();
                 }
 
                 return Ok (d);
@@ -123,7 +123,21 @@ namespace RpgApi.Controllers
             }
     }
     
-    
+    [HttpGet("PersonagemRandom")]
+        public async Task<IActionResult> Sorteio()
+        {
+            List<Personagem> personagens = await _context.Personagens.ToListAsync();
+
+            //Sorteio com numero da quantidade de personagens
+            int sorteio = new Random().Next(personagens.Count);
+
+            //busca na lista pelo indice sorteado (Não é o ID)
+            Personagem p = personagens[sorteio];
+
+            string msg = string.Format("N° sorteado {0}. Personagem: {1}", sorteio, p.Nome);
+
+            return Ok(msg);
+        }
     
     
     
