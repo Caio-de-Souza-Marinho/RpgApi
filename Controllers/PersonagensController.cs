@@ -280,7 +280,26 @@ namespace RpgApi.Controllers
             }
     }
 
+    [HttpPut("ZerarRankingRestaurarVidas")]
+        public async Task<IActionResult> ZerarRankingRestaurarVidasAsync()
+        {
+            try
+            {
+                List<Personagem> lista = await _context.Personagens.ToListAsync();
 
+                foreach (Personagem p in lista)
+                {
+                    await ZerarRankingAsync(p);
+                    await RestautarPontosVidaAsync(p);
+                }
+
+                return Ok();
+            }
+            catch (System.Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
 
 
 
