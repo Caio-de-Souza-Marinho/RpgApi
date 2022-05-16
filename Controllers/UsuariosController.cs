@@ -226,5 +226,56 @@ namespace RpgApi.Controllers
             }
         }
 
+
+        [HttpPut("AtualizarLocalizacao")]
+        public async Task<IActionResult> AtualizarLocalizacao(Usuario u)
+        {
+            try
+            {
+                Usuario usuario = await _context.Usuarios.FirstOrDefaultAsync(x => x.Id == u.Id);
+
+                usuario.Latitude = u.Latitude;
+                usuario.Longitude = u.Longitude;
+
+                var attach = _context.Attach(usuario);
+                attach.Property(x => x.Id).IsModified = false;
+                attach.Property(x => x.Latitude).IsModified = true;
+                attach.Property(x => x.Longitude).IsModified = true;
+
+                int linhasAfetadas = await _context.SaveChangesAsync();
+
+                return Ok(linhasAfetadas);
+            }
+            catch (System.Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 }
