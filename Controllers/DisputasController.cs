@@ -112,7 +112,7 @@ namespace RpgApi.Controllers
                     d.Narracao += dados.ToString();
                     d.DataDisputa = DateTime.Now;
                     _context.Disputas.Add(d);
-                    _context.SaveChangesAsync();
+                    _context.SaveChanges();
                 }
 
                 return Ok(d);
