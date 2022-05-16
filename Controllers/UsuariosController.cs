@@ -226,7 +226,7 @@ namespace RpgApi.Controllers
             }
         }
 
-
+        //Método para alteração da geolocalização
         [HttpPut("AtualizarLocalizacao")]
         public async Task<IActionResult> AtualizarLocalizacao(Usuario u)
         {
@@ -252,9 +252,31 @@ namespace RpgApi.Controllers
             }
         }
         
+        //Método para alteração do e-mail
+        [HttpPut("AtualizarEmail")]
+        public async Task<IActionResult> AtualizarEmail(Usuario u)
+        {
+            try
+            {
+                Usuario usuario = await _context.Usuarios.FirstOrDefaultAsync(x => x.Id == u.Id);
 
+                usuario.Email = u.Email;
 
+                var attach = _context.Attach(usuario);
+                attach.Property(x => x.Id).IsModified = false;
+                attach.Property(x => x.Email).IsModified = true;
 
+                int linhasAfetadas = await _context.SaveChangesAsync();
+
+                return Ok(linhasAfetadas);
+            }
+            catch (System.Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        
 
 
 
