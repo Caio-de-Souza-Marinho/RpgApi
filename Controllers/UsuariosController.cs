@@ -195,7 +195,21 @@ namespace RpgApi.Controllers
             }
         }
 
+        [HttpGet("{usuarioId}")]
+        public async Task<IActionResult> GetUsuario(int usuarioId)
+        {
+            try
+        {
+            //Busca o usuario através do login
+            Usuario usuario = await _context.Usuarios .FirstOrDefaultAsync(x => x.Id == usuarioId);
 
+            return Ok(usuario);
+        }
+        catch (System.Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+        }
 
 
 
