@@ -233,23 +233,52 @@ namespace RpgApi.Controllers
         public async Task<IActionResult> AtualizarFoto(Personagem p)
         {
             try
-        {
-            Personagem personagem = await _context.Personagens.FirstOrDefaultAsync(x => x.Id == p.Id);
+            {
+                Personagem personagem = await _context.Personagens.FirstOrDefaultAsync(x => x.Id == p.Id);
 
-            personagem.FotoPersonagem = p.FotoPersonagem;
+                personagem.FotoPersonagem = p.FotoPersonagem;
 
-            var attach = _context.Attach(personagem);
-            attach.Property(x => x.Id).IsModified = false;
-            attach.Property(x => x.FotoPersonagem).IsModified = true;
-            int linhasAfetadas = await _context.SaveChangesAsync();
-            
-            return Ok(linhasAfetadas);
+                var attach = _context.Attach(personagem);
+                attach.Property(x => x.Id).IsModified = false;
+                attach.Property(x => x.FotoPersonagem).IsModified = true;
+                int linhasAfetadas = await _context.SaveChangesAsync();
+                
+                return Ok(linhasAfetadas);
+            }
+            catch (System.Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
-        catch (System.Exception ex)
+
+        [HttpPut("ZerarRanking")]
+        public async Task<IActionResult> ZerarRankingAsync(Personagem p)
         {
-            return BadRequest(ex.Message);
-        }
-        }
+            try
+            {
+                Personagem pEncontrado = await _context.Personagens.FirstOrDefaultAsync(pBusca => pBusca.Id == p.Id);
+
+                pEncontrado.Disputas = 0;
+                pEncontrado.Vitorias = 0;
+                pEncontrado.Derrotas = 0;
+                int linhasAfetadas = 0;
+
+                bool atualizou = await TryUpdateModelAsync<Personagem>(pEncontrado, "p",
+                    pAtualizar => pAtualizar.Disputas,
+                    pAtualizar => pAtualizar.Vitorias,
+                    pAtualizar => pAtualizar.Derrotas);
+
+                //EF vai detectar e atualizar apenas as colunas que foram alteradas.
+                if (atualizou)
+                    linhasAfetadas = await _context.SaveChangesAsync();
+
+                return Ok(linhasAfetadas);
+            }
+            catch (System.Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+    }
 
 
 
