@@ -274,5 +274,36 @@ namespace RpgApi.Controllers
 
     }
     
+    [HttpGet("Listar")]
+    public async Task<IActionResult> ListarAsync()
+    {
+        try
+        {
+            List<Disputa> disputas = await _context.Disputas.ToListAsync();
+
+            return Ok(disputas);
+        }
+        catch (System.Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 }
